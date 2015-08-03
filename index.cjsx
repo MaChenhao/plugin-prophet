@@ -569,7 +569,7 @@ module.exports =
                 continue unless @state.shipLv[i] != -1
                 continue unless i >= 6
                 <tr key={i}>
-                  <td style={getCondStyle @state.cond[i]}>Lv. {@state.shipLv[i]}, Cond. {@state.cond[i]} - {tmpName}</td>
+                  <td>Lv. {@state.shipLv[i]} - {tmpName}</td>
                   <td className="hp-progress">
                     <ProgressBar bsStyle={getHpStyle @state.nowHp[i] / @state.maxHp[i] * 100}
                       now={@state.nowHp[i] / @state.maxHp[i] * 100}
