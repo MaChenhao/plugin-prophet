@@ -269,6 +269,7 @@ module.exports =
       damageHp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       shipName: ["空", "空", "空", "空", "空", "空", "空", "空", "空", "空", "空", "空"]
       shipLv: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+      cond: [49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49, 49]
       enemyInfo: null
       getShip: null
       enemyFormation: 0
@@ -279,7 +280,7 @@ module.exports =
       deckId: 0
     handleResponse: (e) ->
       {method, path, body, postBody} = e.detail
-      {afterHp, nowHp, maxHp, damageHp, shipName, shipLv, enemyInfo, getShip, enemyFormation, enemyTyku, enemyIntercept, enemyName, result, deckId} = @state
+      {afterHp, nowHp, maxHp, damageHp, shipName, shipLv, cond, enemyInfo, getShip, enemyFormation, enemyTyku, enemyIntercept, enemyName, result, deckId} = @state
       if path == '/kcsapi/api_req_map/start' || formationFlag
         @setState
           enemyInformation: 0
@@ -300,6 +301,7 @@ module.exports =
             continue if shipId == -1
             shipName[i] = _ships[shipId].api_name
             shipLv[i] = _ships[shipId].api_lv
+            cond[i] = _ships[shipId].api_cond
             maxHp[i] = _ships[shipId].api_maxhp
             nowHp[i] = _ships[shipId].api_nowhp
             deckId = postBody.api_deck_id - 1
@@ -502,6 +504,7 @@ module.exports =
             continue if shipId == -1
             shipName[i] = _ships[shipId].api_name
             shipLv[i] = _ships[shipId].api_lv
+            cond[i] = _ships[shipId].api_cond
             maxHp[i] = _ships[shipId].api_maxhp
             nowHp[i] = _ships[shipId].api_nowhp
             damageHp[i] = 0
@@ -513,6 +516,7 @@ module.exports =
         maxHp: maxHp
         shipName: shipName
         shipLv: shipLv
+        cond: cond
         enemyInfo: enemyInfo
         getShip: getShip
         enemyFormation: enemyFormation
@@ -542,7 +546,7 @@ module.exports =
                 continue unless @state.shipLv[i] != -1
                 continue unless i < 6
                 <tr key={i + 1}>
-                  <td>Lv. {@state.shipLv[i]} - {tmpName}</td>
+                  <td style={getCondStyle @state.cond[i]}>Lv. {@state.shipLv[i]}, Cond. {@state.cond[i]} - {tmpName}</td>
                   <td className="hp-progress">
                     <ProgressBar bsStyle={getHpStyle @state.nowHp[i] / @state.maxHp[i] * 100}
                       now={@state.nowHp[i] / @state.maxHp[i] * 100}
@@ -565,7 +569,7 @@ module.exports =
                 continue unless @state.shipLv[i] != -1
                 continue unless i >= 6
                 <tr key={i}>
-                  <td>Lv. {@state.shipLv[i]} - {tmpName}</td>
+                  <td style={getCondStyle @state.cond[i]}>Lv. {@state.shipLv[i]}, Cond. {@state.cond[i]} - {tmpName}</td>
                   <td className="hp-progress">
                     <ProgressBar bsStyle={getHpStyle @state.nowHp[i] / @state.maxHp[i] * 100}
                       now={@state.nowHp[i] / @state.maxHp[i] * 100}
