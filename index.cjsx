@@ -283,6 +283,7 @@ module.exports =
       {afterHp, nowHp, maxHp, damageHp, shipName, shipLv, cond, enemyInfo, getShip, enemyFormation, enemyTyku, enemyIntercept, enemyName, result, deckId} = @state
       if path == '/kcsapi/api_req_map/start' || formationFlag
         @setState
+          enemyFormation: 0
           enemyInformation: 0
           enemyTyku: 0
           enemyIntercept: 0
@@ -453,6 +454,7 @@ module.exports =
           [shipName, shipLv] = getInfo shipName, shipLv, _decks[body.api_dock_id - 1].api_ship, body.api_ship_ke, body.api_ship_lv
           [maxHp, nowHp] = getHp maxHp, nowHp, body.api_maxhps, body.api_nowhps
           if body.api_formation?
+            enemyFormation = body.api_formation[1]
             enemyIntercept = body.api_formation[2]
           afterHp = Object.clone nowHp
           if body.api_kouku.api_stage3?
@@ -479,7 +481,7 @@ module.exports =
           damageHp = getDamage damageHp, nowHp, afterHp, 1
           nowHp = Object.clone afterHp
 
-        when '/kcspai/api_req_practice/battle_result'
+        when '/kcsapi/api_req_practice/battle_result'
           flag = true
           result = body.api_win_rank
 
